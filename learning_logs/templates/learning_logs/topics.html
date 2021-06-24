@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Learning Log</title>
 </head>
 <body>
 {% extends "learning_logs/base.html" %}
 
+{% block page_header %}
+    <h1>Tematy</h1>
+{% endblock page_header %}
+
 {% block content %}
+    <ul>
+      {% for topic in topics %}
+        <li>
+            <h3>
+                <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+            </h3>
+        </li>
+      {% empty %}
+        <li><h3>Nie zostal dodany jeszcze zaden temat.</h3></li>
+      {% endfor %}
+    </ul>
 
-<p>Tematy</p>
-<ul>
-  {% for topic in topics %}
-    <li>
-        <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-    </li>
-  {% empty %}
-    <li>Nie zostal dodany jeszcze zaden temat.</li>
-  {% endfor %}
-</ul>
 
+    <h3><a href="{% url 'learning_logs:new_topic' %}">Dodaj nowy temat</a></h3>
 {% endblock content %}
 
 </body>

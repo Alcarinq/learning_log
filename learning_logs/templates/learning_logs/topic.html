@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Learning Log</title>
 </head>
 <body>
 {% extends "learning_logs/base.html" %}
 
+{% block page_header %}
+    <h1>{{ topic }}</h1>
+{% endblock page_header %}
+
 {% block content %}
+  <p>
+    <a href="{% url 'learning_logs:new_entry' topic.id %}">Dodaj nowy wpis</a>
+  </p>
 
-  <p>Temat: {{ topic }}</p>
-
-  <p>Wpisy:</p>
-  <ul>
-    {% for entry in entries %}
-      <li>
-        <p>{{ entry.date_added|date:'d M y H:i' }}</p>
-        <p>{{ entry.text|linebreaks }}</p>
-      </li>
+  {% for entry in entries %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        {{ entry.date_added|date:'d M y H:i' }}
+        <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">Edytuj wpis</a></small>
+      </h4>
+      <div class="card-body">
+        {{ entry.text|linebreaks }}
+      </div>
+    </div>
     {% empty %}
       <li>Nie ma jeszcze zadnego wpisu.</li>
     {% endfor %}
-  </ul>
 
 {% endblock content %}
 </body>
