@@ -1,9 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
+
+
+def handler404(request, exception=None):
+    return render(request, '404.html')
+
+
+def handler500(request):
+    return render(request, '500.html')
 
 
 def index(request):
@@ -22,7 +30,7 @@ def topics(request):
 @login_required
 def topic(request, topic_id):
     """Showing single topic"""
-    topic = Topic.objects.get(id=topic_id)
+    topic = get_object_or_404(Topic, id=topic_id)
     if topic.owner != request.user:
         raise Http404
 
