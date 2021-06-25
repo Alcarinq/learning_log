@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,10 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2s#(z&see+ax0=g+pa&=sld6-l_3-fiu(h9_+w!uprzbugnflu'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get('DJANG_SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
@@ -134,3 +131,7 @@ LOGIN_URL = 'users:login'
 # heroku
 import django_heroku
 django_heroku.settings(locals())
+if os.environ.get('DEBUG') == 'TRUE':
+    DEBUG = True
+elif os.environ.get('DEBUG') == 'FALSE':
+    DEBUG = False
